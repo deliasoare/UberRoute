@@ -6,6 +6,16 @@ module.exports = {
         filename: 'index-bundle.js',
         path: path.resolve(__dirname, './static')
     },
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname, 'dist')
+        },
+        devtools: 'source-map',
+        port: 3000,
+        compress: true,
+        hot: true,
+        open: true,
+    },
     module: {
         rules: [
             {
@@ -18,6 +28,11 @@ module.exports = {
                         ["@babel/preset-react", {"runtime": "automatic"}]
                     ]
                 }
+            },
+            {
+                test: /\.(jpg|jpeg|png|svg|gif)$/i,
+                exclude: /node_modules/,
+                type: 'asset/resource'
             }
         ]
     }
