@@ -1,6 +1,7 @@
 import pygeohash as pgh
 from .models import Destination
 
+
 def compute_best_route(start_geohash, end_geohash):
     # For simplicity, let's say you have two predefined bus routes as lists of geohashes
     bus_route_1 = [
