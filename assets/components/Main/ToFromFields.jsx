@@ -3,14 +3,7 @@ import Dropdown from './Dropdown.jsx';
 import { FaArrowRight } from 'react-icons/fa';
 
 function ToFromFields( { setToDestination, setFromDestination, fromDestination, toDestination, setResultRequest } ) {
-    useEffect(() => {
-        fetch('getAllDestinations/')
-        .then(response => response.json())
-        .then(res => {
-            console.log(res);
-        })
-    }, [])
-    const destinations = ["1", "2", "3"];
+    const destinations = ['Limassol', 'Starbucks', 'Agios Georgios Havouzas Church', 'Mesa Geitonia', 'Agios Athanasios'];
     
     const computeDestinations = () => {
         setResultRequest(true);

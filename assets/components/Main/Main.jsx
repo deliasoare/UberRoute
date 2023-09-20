@@ -12,8 +12,65 @@ function Main() {
 
     useEffect(() => {
         if (resultRequest) {
-            // getResult api (toDestination, fromDestination)
-            setResult(fromDestination + ' ' + toDestination);
+            let mockResult;
+            if (fromDestination === 'Limassol')
+                if (toDestination === 'Limassol')
+                    mockResult = "You're already  here!"
+                else if (toDestination === 'Starbucks')
+                    mockResult = "Ridesharing"
+                else if (toDestination === 'Mesa Geitonia')
+                    mockResult = "Ridesharing"
+                else if (toDestination === 'Agios Georgios Havouzas Church')
+                    mockResult = "Ridesharing"
+                else 
+                    mockResult = "Ridesharing -> Bus Stop 3 -> Bus Stop 2 "
+            else if (fromDestination === "Starbucks")
+                if (toDestination === "Starbucks")
+                    mockResult = "You're already  here!"
+                else if (toDestination === "Limassol")
+                    mockResult = "Ridesharing"
+                else if (toDestination === 'Mesa Geitonia')
+                    mockResult = "Ridesharing"
+                else if (toDestination === 'Agios Georgios Havouzas Church')
+                    mockResult = "Bus Stop 5 -> Bus Stop 2"
+                else 
+                    mockResult = "Ridesharing -> Bus Stop 3 -> Bus Stop 2 "
+            else if (fromDestination === "Mesa Geitonia")
+                if (toDestination === 'Mesa Geitonia')
+                    mockResult = "You're already  here!"
+                else if (toDestination === "Starbucks")
+                    mockResult = "Ridesharing"
+                else if (toDestination === "Limassol")
+                    mockResult = "Ridesharing"
+                else if (toDestination === 'Mesa Geitonia')
+                    mockResult = "Ridesharing"
+                else 
+                    mockResult = 'Ridesharing -> Bus Stop 3 -> Bus Stop 2'
+            else if (fromDestination === 'Agios Georgios Havouzas Church')
+                if (toDestination === 'Agios Georgios Havouzas Church')
+                    mockResult = "You're already  here!"
+                else if (toDestination === "Starbucks")
+                    mockResult = "Ridesharing"
+                else if (toDestination === "Limassol")
+                    mockResult = "Ridesharing"
+                else if (toDestination === 'Mesa Geitonia')
+                    mockResult = 'Bus Stop 5 -> Bus Stop 3 -> Ridesharing'
+                else
+                    mockResult = 'Bus stop 5 -> Bus Stop 2'
+            else
+                if (fromDestination === 'Agios Athanasios')
+                    if (toDestination === 'Agios Athanasios')
+                        mockResult = 'Ridesharing'
+                    else if (toDestination === 'Agios Georgios Havouzas Church')
+                        mockResult = 'Bus stop 2 -> Bus Stop 5'
+                    else if (toDestination === "Starbucks")
+                        mockResult = 'Ridesharing'
+                    else if (toDestination === 'Limassol')
+                        mockResult = 'Ridesharing'
+                    else 
+                        mockResult = 'Ridesharing'
+
+            setResult(mockResult);
             setResultIsShown(true);
         }
         
