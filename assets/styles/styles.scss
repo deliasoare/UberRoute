@@ -3,9 +3,17 @@
 @import '_variables.scss';
 @import '_header.scss';
 @import '_main.scss';
+@import '_footer.scss';
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Stylish', cursive;
+}
+
+.root {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns:75px 1fr 75px;
 }

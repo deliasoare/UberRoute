@@ -1,9 +1,12 @@
+
+
 .main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 3em;
     .mapImg {
-        width: 50%;
+        width: 70%;
         min-width: 250px;
         img {
             width: 100%;
@@ -24,8 +27,9 @@
                 font-size: 1.2rem;
             }
             .fromDropdown, .toDropdown {
+                width: clamp(100px, 25%, 350px);
                 .otherFields {
-                    position: absolute;
+                    position: relative;
                     width: 100%;
                 }
                 .otherFields p, .selectedDestination {
@@ -33,6 +37,7 @@
                     color: $secondary;
                     border-radius: 5px;
                     width: 100%;
+                    cursor: pointer;
                 }
                 .otherFields p {
                     margin-top: 1px;
@@ -43,9 +48,44 @@
                     padding: 0.5em;
                 }
             }
+            .arrow {
+                align-items: flex-start;
+            }
         }
     .computeDestinations {
         align-self: flex-end;
+        margin-top: 15px;
+        background: $main;
+        color: $secondary;
+        padding: 0.75em;
+        border-radius: 15px;
+        border: 2px solid $secondary;
+        cursor: pointer;
+        &:hover {
+            border-color: $main;
+            background: $secondary;
+            color: $main;
+        }
     }
+    }
+    .result {
+        font-size: 1.1rem;
+        margin-top: 5px;
+        text-align: center;
     }
 }   
+
+@media (max-width: 750px) {
+    .mapImg, .fieldsNButton {
+        width: 100% !important;
+    }
+    .fieldsNButton {
+        padding: 0.5em;
+    }
+}
+
+@media (min-width: 1000px) {
+    .mapImg {
+        width: 50% !important;
+    }
+}

@@ -3,4 +3,7 @@
     color: $secondary;
     font-size: 1.4rem;
     padding: 0.75em;
+    .title {
+        cursor: pointer;
+    }
 }
