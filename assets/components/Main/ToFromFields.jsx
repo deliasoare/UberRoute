@@ -3,7 +3,13 @@ import Dropdown from './Dropdown.jsx';
 import { FaArrowRight } from 'react-icons/fa';
 
 function ToFromFields( { setToDestination, setFromDestination, fromDestination, toDestination, setResultRequest } ) {
-    // get all destinations API
+    useEffect(() => {
+        fetch('getAllDestinations/')
+        .then(response => response.json())
+        .then(res => {
+            console.log(res);
+        })
+    }, [])
     const destinations = ["1", "2", "3"];
     
     const computeDestinations = () => {
