@@ -1,0 +1,13 @@
+$main: #000000;
+$secondary: #ffffff;
+
+@import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Stylish&display=swap');
+
+@import 'header.scss';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Stylish', cursive;
+}

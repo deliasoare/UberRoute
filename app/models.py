@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-import Geohash
+import pygeohash as gh
 
 
 class Destination(models.Model):
@@ -16,12 +16,12 @@ class Destination(models.Model):
         super(Destination, self).save(*args, **kwargs)
 
     def compute_geohash(self):
-        return Geohash.encode(self.latitude, self.longitude)
+        return gh.encode(self.latitude, self.longitude)
 
     @staticmethod
     def get_nearest_destination(geohash):
         # This method returns the nearest destination to the given geohash
-        distances = [(destination, Geohash.distance(geohash, destination.geohash)) for destination in Destination.objects.all()]
+        distances = [(destination, gh.distance(geohash, destination.geohash)) for destination in Destination.objects.all()]
         return min(distances, key=lambda x: x[1])[0]
 
     def __str__(self):
@@ -35,7 +35,7 @@ class BusStop(models.Model):
     geohash = models.CharField(max_length=12)  # Store the geohash of the bus stop
 
     def save(self, *args, **kwargs):
-        self.geohash = Geohash.encode(self.latitude, self.longitude)
+        self.geohash = gh.encode(self.latitude, self.longitude)
         super(BusStop, self).save(*args, **kwargs)
 
     def __str__(self):

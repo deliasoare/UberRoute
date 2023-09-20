@@ -1,10 +1,10 @@
-import Geohash
+import pygeohash as gh
 from .models import Destination
 
 
 def compute_best_route(current_location, desired_destination):
-    current_geohash = Geohash.encode(current_location['latitude'], current_location['longitude'])
-    destination_geohash = Geohash.encode(desired_destination['latitude'], desired_destination['longitude'])
+    current_geohash = gh.encode(current_location['latitude'], current_location['longitude'])
+    destination_geohash = gh.encode(desired_destination['latitude'], desired_destination['longitude'])
 
     # For simplicity, let's say you have two predefined bus routes as lists of geohashes
     bus_route_1 = [
@@ -17,13 +17,13 @@ def compute_best_route(current_location, desired_destination):
     bus_route_2 = [...]  # List of geohashes
 
     # Check proximity to bus routes
-    proximity_to_route_1 = min([Geohash.distance(current_geohash, stop) for stop in bus_route_1]) + \
-                           min([Geohash.distance(destination_geohash, stop) for stop in bus_route_1])
+    proximity_to_route_1 = min([gh.distance(current_geohash, stop) for stop in bus_route_1]) + \
+                           min([gh.distance(destination_geohash, stop) for stop in bus_route_1])
 
-    proximity_to_route_2 = min([Geohash.distance(current_geohash, stop) for stop in bus_route_2]) + \
-                           min([Geohash.distance(destination_geohash, stop) for stop in bus_route_2])
+    proximity_to_route_2 = min([gh.distance(current_geohash, stop) for stop in bus_route_2]) + \
+                           min([gh.distance(destination_geohash, stop) for stop in bus_route_2])
 
-    threshold = 0.05  # Adjust based on your needs
+    threshold = 0.05  
 
     if proximity_to_route_1 < threshold and proximity_to_route_1 <= proximity_to_route_2:
         return "Take Bus Route 1"
