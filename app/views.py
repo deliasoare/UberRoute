@@ -3,6 +3,14 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .utils import suggest_transit_options
+from django.http import JsonResponse
+from .models import Destination
+
+
+def get_all_destinations(request):
+    destinations = Destination.objects.all()
+    data = [{"name": dest.name, "latitude": dest.latitude, "longitude": dest.longitude, "geohash": dest.geohash} for dest in destinations]
+    return JsonResponse(data, safe=False)
 
 
 def index(request):
@@ -26,9 +34,3 @@ def get_transit_suggestions(request):
     suggestion = suggest_transit_options(start_latitude, start_longitude, end_latitude, end_longitude)
 
     return JsonResponse({'suggestion': suggestion})
-
-def get_all_destinations(request):
-    destinations = Destination.objects.all()
-    data = [destination.serialize() for destination in destinations]
-    return JsonResponse(data, safe=False)
-

@@ -1,10 +1,10 @@
-import pygeohash as gh
+import pygeohash as pgh
 from .models import BusStop, Destination
 
 
 def suggest_transit_options(start_latitude, start_longitude, end_latitude, end_longitude, distance_threshold=0.5):
-    start_geohash = gh.encode(start_latitude, start_longitude)
-    end_geohash = gh.encode(end_latitude, end_longitude)
+    start_geohash = pgh.encode(start_latitude, start_longitude)
+    end_geohash = pgh.encode(end_latitude, end_longitude)
 
     # Identify the closest bus stops for starting and ending points.
     start_stop = get_nearest_stop(start_geohash)
