@@ -1,4 +1,4 @@
-import MapImg from '../../images/finalizedMap.png';
+import MapImg from '../../images/Map.png';
 
 function Map() {
     return (

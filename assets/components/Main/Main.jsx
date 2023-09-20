@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Map from './Map.jsx'
+import Map from  './Map.jsx';
 import ToFromFields from './ToFromFields.jsx';
 import Result from './Result.jsx';
 
