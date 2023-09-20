@@ -1,14 +1,14 @@
-#UberRoute: Intelligent Transit Route Suggestion##
+#UberRoute: Intelligent Transit Route Suggestion
 
-##Introduction##
+##Introduction
 
 UberRoute is an avant-garde solution developed for the Uber Hackathon. Designed to revolutionize urban transit planning, this application seamlessly integrates the precision of geohashes with modern web technologies to offer users unparalleled accuracy and efficiency in transit recommendations.
 
-##Project Vision##
+##Project Vision
 
 In an era where time is of the essence, efficient transit is paramount. UberRoute was birthed from the vision of simplifying urban navigation, ensuring predictability, efficiency, and user-centricity. Whether it's the daily commute, a city-wide excursion, or coordinating with ridesharing platforms like Uber, UberRoute stands out as the beacon for optimal route suggestions.
 
-##Core Features##
+##Core Features
 
 Geohash-based Recommendations
 UberRoute's core is powered by its geohash-based routing algorithm. Geohashes, a system of representing geographical locations with incredible accuracy, allow UberRoute to swiftly analyze extensive transit data. This ensures users are presented with the most efficient route suggestions in a blink.
@@ -19,7 +19,7 @@ Crafted with React, UberRoute's frontend is a testament to modern web design pri
 Integration with Uber's API
 A standout feature is UberRoute's direct synergy with Uber's API. Beyond mere route suggestions, users are privy to real-time data on Uber ride availability, fare estimates, and more. This comprehensive approach ensures users are equipped with all the necessary information for informed transit decisions.
 
-##Technologies Used##
+##Technologies Used
 
 Django: A high-level Python web framework that encourages rapid design and a clean, pragmatic design. It forms the backbone of our backend services.
 React: A JavaScript library for building user interfaces. It powers our dynamic and responsive frontend, ensuring a seamless user experience.
