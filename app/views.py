@@ -1,7 +1,52 @@
+<<<<<<< HEAD
 from django.http import JsonResponse
 
 def get_all_destinations(request):
     destinations = Destination.objects.all()
+=======
+from django.http import HttpResponseBadRequest
+import json
+
+
+@csrf_exempt
+def get_transit_suggestions(request):
+    if request.method == "POST":
+        data = extract_data_from_post_request(request)
+    elif request.method == "GET":
+        data = extract_data_from_get_request(request)
+    else:
+        return HttpResponseBadRequest("Invalid request method")
+
+    if not data:
+        return HttpResponseBadRequest("Invalid or missing parameters")
+
+    suggestion = suggest_transit_options(data['start_geohash'], data['end_geohash'])
+
+    return JsonResponse({'suggestion': suggestion})
+
+
+def extract_data_from_post_request(request):
+    try:
+        data = json.loads(request.body)
+        return {
+            'start_geohash': data.get('start_geohash'),
+            'end_geohash': data.get('end_geohash')
+        }
+    except (ValueError, KeyError, TypeError):
+        return None
+
+
+def extract_data_from_get_request(request):
+    try:
+        # Parsing the JSON string from the query parameter
+        data = json.loads(request.GET.get('data', '{}'))
+        return {
+            'start_geohash': data.get('start_geohash'),
+            'end_geohash': data.get('end_geohash')
+        }
+    except (ValueError, KeyError, TypeError):
+        return None
+>>>>>>> 9c8d5f99ca61c031bbaf907805b9a8a742cbb781
 
     return JsonResponse([destination.serialize() for destination in destinations])
 
