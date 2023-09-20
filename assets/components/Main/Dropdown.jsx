@@ -4,6 +4,7 @@ function Dropdown({destinations, setDestination, currentDestination}) {
     const fieldRef = useRef(null);
 
     const toggleFields = () => {
+        console.log(fieldRef);
         if (fieldRef.current.style.display === 'none') 
             fieldRef.current.style.display = 'block';
         else

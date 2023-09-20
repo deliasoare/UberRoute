@@ -1,0 +1,51 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .mapImg {
+        width: 50%;
+        min-width: 250px;
+        img {
+            width: 100%;
+            height:auto;
+        }
+    }
+    .fieldsNButton {
+        display: flex; 
+        flex-direction: column;
+        width: 50%;
+        .fields {
+            margin-top: 2em;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            font-size: 1.1rem;
+            .fromKeyword, .toKeyword {
+                font-size: 1.2rem;
+            }
+            .fromDropdown, .toDropdown {
+                .otherFields {
+                    position: absolute;
+                    width: 100%;
+                }
+                .otherFields p, .selectedDestination {
+                    background: $main;
+                    color: $secondary;
+                    border-radius: 5px;
+                    width: 100%;
+                }
+                .otherFields p {
+                    margin-top: 1px;
+                    padding: 0.2em;
+                }
+                .selectedDestination {
+                    margin-bottom: 2px;
+                    padding: 0.5em;
+                }
+            }
+        }
+    .computeDestinations {
+        align-self: flex-end;
+    }
+    }
+}   

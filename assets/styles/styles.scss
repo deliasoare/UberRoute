@@ -1,10 +1,8 @@
-$main: #000000;
-$secondary: #ffffff;
-
 @import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Stylish&display=swap');
 
-@import 'header.scss';
-
+@import '_variables.scss';
+@import '_header.scss';
+@import '_main.scss';
 * {
     padding: 0;
     margin: 0;

@@ -2,7 +2,7 @@ import Header from './Header.jsx';
 import Main from './Main/Main.jsx';
 import Footer from './Footer.jsx';
 
-import Styles from '../styles/styles.scss';
+import '../styles/styles.scss';
 function App() {
     return (
         <>

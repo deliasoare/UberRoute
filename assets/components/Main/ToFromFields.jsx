@@ -12,15 +12,17 @@ function ToFromFields( { setToDestination, setFromDestination, fromDestination, 
     
 
     return (
-        <div className='fields'>
-            <div className='fromDropdown'>
-                <p className='fromKeyword'>From:</p>
-                <Dropdown destinations={destinations} currentDestination={fromDestination} setDestination={setFromDestination} />
-            </div>
-            <FaArrowRight />
-            <div className='toDropdown'>
-                <p className='toKeyword'>To:</p>
-                <Dropdown destinations={destinations} currentDestination={toDestination} setDestination={setToDestination} />
+        <div className='fieldsNButton'>
+            <div className='fields'>
+                <div className='fromDropdown'>
+                    <p className='fromKeyword'>From:</p>
+                    <Dropdown destinations={destinations} currentDestination={fromDestination} setDestination={setFromDestination} />
+                </div>
+                <FaArrowRight />
+                <div className='toDropdown'>
+                    <p className='toKeyword'>To:</p>
+                    <Dropdown destinations={destinations} currentDestination={toDestination} setDestination={setToDestination} />
+                </div>
             </div>
             <button onClick={computeDestinations} className='computeDestinations'>Compute</button>
         </div>

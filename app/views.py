@@ -27,3 +27,8 @@ def get_transit_suggestions(request):
 
     return JsonResponse({'suggestion': suggestion})
 
+def get_all_destinations(request):
+    destinations = Destination.objects.all()
+    data = [destination.serialize() for destination in destinations]
+    return JsonResponse(data, safe=False)
+
