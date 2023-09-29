@@ -5,9 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
 </head>
 <body>
+    <div id="map" style="width: 100%; height: 400px;"></div>
     <div id="root"></div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="{% static 'leaflet/leaflet.js' %}"></script>
     <script src="{% static 'index-bundle.js' %}"></script>
 </body>
 </html>

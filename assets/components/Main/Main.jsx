@@ -60,7 +60,7 @@ function Main() {
             else
                 if (fromDestination === 'Agios Athanasios')
                     if (toDestination === 'Agios Athanasios')
-                        mockResult = 'Ridesharing'
+                        mockResult = 'You are already here!'
                     else if (toDestination === 'Agios Georgios Havouzas Church')
                         mockResult = 'Bus stop 2 -> Bus Stop 5'
                     else if (toDestination === "Starbucks")

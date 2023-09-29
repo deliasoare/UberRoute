@@ -1,12 +1,16 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 
+
 def index(request):
     return render(request, 'app/hello_webpack.html')
+
+
 def get_all_destinations(request):
     destinations = Destination.objects.all()
 
     return ['Limassol', 'Starbucks', 'Agios Georgios Havouzas Church', 'Mesa Geitonia']
+
 
 def suggest_transit_options(start_geohash, end_geohash, distance_threshold=0.5):
     # Identify the closest bus stops for starting and ending points.
@@ -35,6 +39,7 @@ def get_nearest_stop(geohash, distance_threshold=0.5):
             nearest_distance = distance
             nearest_stop = stop
     return nearest_stop
+
 
 def get_best_route(request, start_location, end_location):
     # suggestions = []

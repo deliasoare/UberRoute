@@ -2,7 +2,7 @@
 function Footer() {
     return (
         <div className='footer'>
-            <p>Made by ***</p>
+            <p>Made by Delia Soare and Aleksandr Baranov</p>
         </div>
     )
 }
