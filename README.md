@@ -16,9 +16,6 @@ UberRoute's core is powered by its geohash-based routing algorithm. Geohashes, a
 ### Dynamic User Interface 
 Crafted with React, UberRoute's frontend is a testament to modern web design principles. It's sleek, responsive, and intuitive, ensuring users from all walks of life can navigate with ease. The seamless integration with the Django backend ensures real-time data processing and instant route suggestions.
 
-### Integration with Uber's API 
-A standout feature is UberRoute's direct synergy with Uber's API. Beyond mere route suggestions, users are privy to real-time data on Uber ride availability, fare estimates, and more. This comprehensive approach ensures users are equipped with all the necessary information for informed transit decisions.
-
 ## Technologies Used
 
 - **Django**: A high-level Python web framework that encourages rapid design and a clean, pragmatic design. It forms the backbone of our backend services.
