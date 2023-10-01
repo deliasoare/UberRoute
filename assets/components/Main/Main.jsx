@@ -1,9 +1,26 @@
 import { useState, useEffect } from 'react';
 import Map from  './Map.jsx';
-import ToFromFields from './ToFromFields.jsx';
 import Result from './Result.jsx';
+import { useLoadScript } from "@react-google-maps/api";
+
 
 function Main() {
+    const [key, setKey] = useState('');
+
+    const fetchData = async () => {
+        const data = await fetch("http://127.0.0.1:8000/getApiKey");
+        let resp = await data.json();
+        
+    }
+
+    const { isLoaded } = useLoadScript ({
+        googleMapsApiKey: process.env.REACT_GOOGLE_MAPS_API_KEY,
+        libraries:["places"]
+    })
+
+    useEffect(() => {
+        fetchData();
+    }, [])
     const [resultIsShown, setResultIsShown] = useState(false);
     const [result, setResult] = useState('');
     const [toDestination, setToDestination] = useState('Choose destination');
@@ -79,11 +96,14 @@ function Main() {
         }
     }, [resultRequest])
     return (
-        <div className='main'>
-            <Map />
-            <ToFromFields setFromDestination={setFromDestination} setToDestination={setToDestination} fromDestination={fromDestination} toDestination={toDestination} setResultRequest={setResultRequest}/>
-            <Result resultIsShown={resultIsShown} result={result}/> 
-        </div>
+        <>
+            {!isLoaded ? <p>Loading</p> :
+            <div className='main'>
+                <Map />
+                <Result resultIsShown={resultIsShown} result={result}/> 
+            </div>
+            }
+        </>
     )
 }
 

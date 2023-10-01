@@ -4,6 +4,8 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    # path('getAllDestinations/', views.get_all_destinations, name='get_all_destinations'),
-    # path('computeBestRoute/<str:start_location>/<str:end_location>', views.get_best_route, name='get_best_route'),
+
+    # API
+    path("getApiKey", views.getApiKey, name="getApiKey"),
+
 ]
