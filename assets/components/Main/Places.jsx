@@ -20,7 +20,8 @@ function Place({ setPlace , field, setDestination }) {
         if (field === 'from')
             setPlace({ lat, lng });
 
-        setDestination({lat, lng});
+        console.log(val);
+        setDestination({lat, lng}, );
     }
 
     return (

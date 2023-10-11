@@ -5,8 +5,10 @@ import {
     DirectionsRenderer,
     Polyline
 } from "@react-google-maps/api";
-
+import polyline from 'google-polyline';
 import { FaArrowRight } from 'react-icons/fa';
+
+import {getGeocode, getLatLng} from 'use-places-autocomplete';
 
 import Place from './Places.jsx';
 
@@ -41,12 +43,20 @@ function Map() {
     const [toDestination, setToDestination] = useState('');
 
     const [fetchDirClicked, setFetchDirClicked] = useState(false);
+
     const [directions, setDirections] = useState([]);
+    const [additionalRoutes, setAdditionalRoutes] = useState([]);
+
+    const [cities, setCities] = useState([]);
+    const [additionalPolyline, setAdditionalPolyline] = useState('');
+    const [drivingResults, setDrivingResults] = useState([]);
 
     const fetchDir = () => {
         if (!fromDestination || !toDestination) return;
-
-        const service = new google.maps.DirectionsService
+        setDirections('');
+        setAdditionalRoutes('');
+        let resultWorked = 1;
+        const service = new google.maps.DirectionsService;
         service.route(
             {
                 origin: fromDestination,
@@ -60,13 +70,72 @@ function Map() {
             },
             (result, status) => {
                 if (status === "OK" && result) {    
-                    console.log(result);
                     setDirections(result);
-                        
+                }
+                else {
+                    const service = new google.maps.DirectionsService;
+                    service.route(
+                    {
+                        origin: fromDestination,
+                        destination: toDestination,
+                        travelMode: google.maps.TravelMode.DRIVING
+                         
+                    },
+                    (result, status) => {
+                        if (status === "OK") {
+                            let waypoints = polyline.decode(result.routes[0].overview_polyline);
+                            let citiesArr = [];
+                            setDrivingResults(result);
+                            
+                            function geocodeWaypoints() {
+                            const geocoder = new google.maps.Geocoder();
+                            const promises = waypoints.map(waypoint => {
+                                return new Promise((resolve) => {
+                                const latlng = new google.maps.LatLng(waypoint[0], waypoint[1]);
+                                geocoder.geocode({ 'location': latlng }, function(results, status) {
+                                    if (status === 'OK') {
+                                    if (results[0]) {
+                                        const addressComponents = results[0].address_components;
+                                        for (let i = 0; i < addressComponents.length; i++) {
+                                        const component = addressComponents[i];
+                                        if (component.types.includes('locality')) {
+                                            let cityNoted = false;
+                                            citiesArr.forEach(city => {
+                                            if (city.name === component.long_name)
+                                                cityNoted = true;
+                                            });
+                                            if (!cityNoted) {
+                                            citiesArr.push({ latlng, name: component.long_name });
+                                            }
+                                        }
+                                        }
+                                    }
+                                    }
+                                    resolve(); 
+                                });
+                                });
+                            });
+                            
+                            return Promise.all(promises);
+                            }
+                            
+                            geocodeWaypoints()
+                            .then(() => {
+                                setCities(citiesArr.reverse());
+                            })
+                            .catch(error => {
+                                console.error('Error geocoding waypoints:', error);
+                            });
+                        }
+                        else {
+                            console.log("There's no such route.")
+                        }
+                    }
+                )        
                 }
             }
-        )
-    }
+        )                
+}
 
     useEffect(() => {
         fetchDir();
@@ -74,6 +143,71 @@ function Map() {
             setFetchDirClicked(false)
         }
     }, [fetchDirClicked])
+
+    useEffect(() => {
+        if (cities.length) {
+            async function computeDirections(cities, fromDestination) {
+                const results = await Promise.all(
+                  cities.map(city => {
+                    return new Promise(async resolve => {
+                      const service = new google.maps.DirectionsService;
+                      const result = await new Promise(innerResolve => {
+                        service.route({
+                          origin: fromDestination,
+                          destination: city.latlng,
+                          travelMode: google.maps.TravelMode.TRANSIT,
+                          transitOptions: {
+                            modes: ['BUS'],
+                            routingPreference: 'FEWER_TRANSFERS'
+                          }
+                        }, (result, status) => {
+                          if (status === "OK") {
+                            innerResolve({result, city: city.latlng});
+                          } else {
+                            innerResolve({result: null, city: null});
+                          }
+                        });
+                      });
+                      resolve(result);
+                    });
+                  })
+                );
+              
+                const successfulResult = results.find(result => result !== null);
+              
+                if (successfulResult) {
+                  return successfulResult;
+                }
+                return null;
+              }
+              
+              computeDirections(cities, fromDestination)
+                .then(({result, city}) => {
+                  if (result) {
+                    setDirections(result);
+                    const service = new google.maps.DirectionsService;
+                    service.route(
+                        {
+                            origin: city,
+                            destination: toDestination,
+                            travelMode: google.maps.TravelMode.DRIVING
+                        },
+                        (result, status) => {
+                            if (status === "OK") {
+                                setAdditionalRoutes(result);
+                            }
+                        }
+                        )
+                  } 
+                  else {
+                    setAdditionalRoutes(drivingResults);
+                  }
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            }
+    }, [cities])
 
     const mapRef = useRef(null);
 
@@ -85,6 +219,7 @@ function Map() {
 
 
     const onLoad = useCallback(map => (mapRef.current = map), [])
+
     return (
         <>
         <div class="mapContainer">
@@ -103,6 +238,16 @@ function Map() {
                     }
                 }}/>
                 }
+
+                {additionalRoutes &&
+                <DirectionsRenderer directions={additionalRoutes} options={{
+                    polylineOptions: {
+                        strokeColor: 'yellow',
+                        zIndex: 50
+                    }
+                }}/>
+                }
+
                 {toDestination && 
                 <Marker position={toDestination} 
                 icon={{url: MarkerImg, scaledSize: new window.google.maps.Size(40, 40)}}
@@ -115,12 +260,3 @@ function Map() {
 }
 
 export default Map;
-
-const defaultOptions = {
-    strokeOpacity: 0.5,
-    strokeWeight: 2,
-    clickable: false,
-    draggable: false,
-    editable: false,
-    visible: true
-}
