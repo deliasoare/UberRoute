@@ -48,14 +48,38 @@ function Map() {
     const [additionalRoutes, setAdditionalRoutes] = useState([]);
 
     const [cities, setCities] = useState([]);
-    const [additionalPolyline, setAdditionalPolyline] = useState('');
     const [drivingResults, setDrivingResults] = useState([]);
+
+    function haversine(lat1, lon1, lat2, lon2) {
+        const R = 6371; 
+        const lat1Rad = (Math.PI * lat1) / 180;
+        const lat2Rad = (Math.PI * lat2) / 180;
+        const latDiff = (Math.PI * (lat2 - lat1)) / 180;
+        const lonDiff = (Math.PI * (lon2 - lon1)) / 180;
+      
+        const a =
+          Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+          Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(lonDiff / 2) * Math.sin(lonDiff / 2);
+      
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+      
+        return distance;
+      }
+
+      function swapElements(arr, index1, index2) {
+        if (index1 < 0 || index1 >= arr.length || index2 < 0 || index2 >= arr.length) {
+          console.log("Invalid indices. Swap operation aborted.");
+          return;
+        }
+      
+        [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
+      }
 
     const fetchDir = () => {
         if (!fromDestination || !toDestination) return;
         setDirections('');
         setAdditionalRoutes('');
-        let resultWorked = 1;
         const service = new google.maps.DirectionsService;
         service.route(
             {
@@ -121,7 +145,17 @@ function Map() {
                             
                             geocodeWaypoints()
                             .then(() => {
-                                setCities(citiesArr.reverse());
+                                let distances = [];
+                                for (let i = 0; i < citiesArr.length; i++) {
+                                    distances[i] = haversine(citiesArr[i].latlng.lat(), citiesArr[i].latlng.lng(), fromDestination.lat, fromDestination.lng);
+                                }
+                                for (let i = 0; i < citiesArr.length - 1; i++)
+                                    for (let j = i + 1; j < citiesArr.length; j++)
+                                        if (distances[i] < distances[j]) {
+                                            [citiesArr[i], citiesArr[j]] = [citiesArr[j], citiesArr[i]];
+                                            [distances[i], distances[j]] = [distances[j], distances[i]];
+                                        }
+                                setCities(citiesArr);
                             })
                             .catch(error => {
                                 console.error('Error geocoding waypoints:', error);
@@ -162,7 +196,7 @@ function Map() {
                           }
                         }, (result, status) => {
                           if (status === "OK") {
-                            innerResolve({result, city: city.latlng});
+                            innerResolve({result, city: city});
                           } else {
                             innerResolve({result: null, city: null});
                           }
@@ -183,12 +217,13 @@ function Map() {
               
               computeDirections(cities, fromDestination)
                 .then(({result, city}) => {
+                console.log(city);
                   if (result) {
                     setDirections(result);
                     const service = new google.maps.DirectionsService;
                     service.route(
                         {
-                            origin: city,
+                            origin: city.latlng,
                             destination: toDestination,
                             travelMode: google.maps.TravelMode.DRIVING
                         },
