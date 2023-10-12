@@ -13,6 +13,7 @@ import {getGeocode, getLatLng} from 'use-places-autocomplete';
 import Place from './Places.jsx';
 
 import MarkerImg from '../../images/marker.png';
+import CarMarker from '../../images/carMarker.svg';
 
 function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDirClicked }) {
     const fetchDir = () => {setFetchDirClicked(true);}
@@ -44,8 +45,8 @@ function Map() {
 
     const [fetchDirClicked, setFetchDirClicked] = useState(false);
 
-    const [directions, setDirections] = useState([]);
-    const [additionalRoutes, setAdditionalRoutes] = useState([]);
+    const [directions, setDirections] = useState('');
+    const [additionalRoutes, setAdditionalRoutes] = useState('');
 
     const [cities, setCities] = useState([]);
     const [drivingResults, setDrivingResults] = useState([]);
@@ -93,7 +94,8 @@ function Map() {
                     {
                         origin: fromDestination,
                         destination: toDestination,
-                        travelMode: google.maps.TravelMode.DRIVING
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        provideRouteAlternatives: true,
                          
                     },
                     (result, status) => {
@@ -197,25 +199,24 @@ function Map() {
                     });
                   })
                 );
-                console.log(results);
                 const successfulResult = results.find(result => result.result !== null);
-              
+                
                 if (successfulResult) {
                   return successfulResult;
                 }
               }
               
               computeDirections(cities, fromDestination)
-                .then(({result, city}) => {
-                console.log(city);
+                .then((result) => {
                   if (result) {
-                    setDirections(result);
+                    setDirections(result.result);
                     const service = new google.maps.DirectionsService;
                     service.route(
                         {
-                            origin: city.latlng,
+                            origin: result.city.latlng,
                             destination: toDestination,
-                            travelMode: google.maps.TravelMode.DRIVING
+                            travelMode: google.maps.TravelMode.DRIVING,
+                            provideRouteAlternatives: true
                         },
                         (result, status) => {
                             if (status === "OK") {
@@ -266,19 +267,32 @@ function Map() {
                 }
 
                 {additionalRoutes &&
-                <DirectionsRenderer directions={additionalRoutes} options={{
-                    polylineOptions: {
-                        strokeColor: 'yellow',
-                        zIndex: 50
-                    },
-                    suppressMarkers: true
-                }}/>
+                additionalRoutes.routes.map((route, index) => {
+                    console.log(route);
+                    return (
+                        <Polyline 
+                            key={index}
+                            path={route.overview_path}
+                            options={{
+                                strokeColor: `${index === 0 ? 'yellow' : 'gray'}`,
+                                zIndex: 50,
+                                strokeWeight: 4,
+                                clickable: false
+                        }}/>
+                    );
+                })
                 }
 
                 {toDestination && 
                 <Marker position={toDestination} 
                 icon={{url: MarkerImg, scaledSize: new window.google.maps.Size(40, 40)}}
                 />}
+
+                {fromDestination &&
+                <Marker position={fromDestination}
+                icon={{url: CarMarker, scaledSize: new window.google.maps.Size(40, 40)}}
+                />
+                }
             </GoogleMap>
         </div>
         <ToFromFields mapRef={mapRef} setFromDestination={setFromDestination} setToDestination={setToDestination} setFetchDirClicked={setFetchDirClicked}/>
