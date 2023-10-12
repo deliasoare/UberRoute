@@ -67,15 +67,6 @@ function Map() {
         return distance;
       }
 
-      function swapElements(arr, index1, index2) {
-        if (index1 < 0 || index1 >= arr.length || index2 < 0 || index2 >= arr.length) {
-          console.log("Invalid indices. Swap operation aborted.");
-          return;
-        }
-      
-        [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
-      }
-
     const fetchDir = () => {
         if (!fromDestination || !toDestination) return;
         setDirections('');
@@ -206,13 +197,12 @@ function Map() {
                     });
                   })
                 );
-              
-                const successfulResult = results.find(result => result !== null);
+                console.log(results);
+                const successfulResult = results.find(result => result.result !== null);
               
                 if (successfulResult) {
                   return successfulResult;
                 }
-                return null;
               }
               
               computeDirections(cities, fromDestination)
@@ -270,7 +260,8 @@ function Map() {
                     polylineOptions: {
                         strokeColor: '#000000',
                         zIndex: 50,
-                    }
+                    },
+                    suppressMarkers: true
                 }}/>
                 }
 
@@ -279,7 +270,8 @@ function Map() {
                     polylineOptions: {
                         strokeColor: 'yellow',
                         zIndex: 50
-                    }
+                    },
+                    suppressMarkers: true
                 }}/>
                 }
 
