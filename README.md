@@ -22,7 +22,7 @@ Crafted with React, UberRoute's frontend is a testament to modern web design pri
   
 - **React**: A JavaScript library for building user interfaces. It powers our dynamic and responsive frontend, ensuring a seamless user experience.
   
-- **Geohash**: A system used for encoding geographic coordinates (latitude and longitude) into a short string of letters and digits. It's the heart of our route recommendation system.
+- **Google Maps API** Used to display the world map and show the suggested route
   
 - **Django Rest Framework**: A powerful and flexible toolkit for building Web APIs, ensuring our backend and frontend communicate seamlessly.
   
