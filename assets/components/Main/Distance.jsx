@@ -20,9 +20,7 @@ function Distance({ leg, type, setTime, setDistance, setCarbon, prevTime, prevDi
     const carbon = ( litersPerKm * (disMeters / 1000) ) * emissionPerLiter;
 
     useEffect(() => {
-        console.log(type);
         if (type === "public" || type === "ridesharing") {
-            console.log({timeSec, disMeters, carbon});
             setTime(prevTime + timeSec);
             setDistance(prevDistance + disMeters);
             setCarbon(prevCarbon + carbon);

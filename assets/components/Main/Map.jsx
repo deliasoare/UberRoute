@@ -14,8 +14,8 @@ import Distance from './Distance.jsx';
 import MarkerImg from '../../images/marker.png';
 import CarMarker from '../../images/carMarker.svg';
 
-function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDirClicked }) {
-    const fetchDir = () => {setFetchDirClicked(true);}
+function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDirClicked, fromDestination, toDestination, history, setHistory, forwardedRef}) {
+    const fetchDir = () => {setFetchDirClicked(true); setHistory([...history], {fromDestination, toDestination}); }
     return (
         <div className='fieldsNButton'>
             <div className='fields'>
@@ -33,14 +33,12 @@ function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDi
                     }} field={'to'} setDestination={setToDestination}/>
                 </div>
             </div>
-            <button onClick={fetchDir} className='computeDestinations'>Compute</button>
+            <button onClick={fetchDir} ref={forwardedRef} className='computeDestinations'>Go</button>
         </div>
     )
 }
 
-function Map() {
-    const [fromDestination, setFromDestination] = useState('');
-    const [toDestination, setToDestination] = useState('');
+function Map({fromDestination, toDestination, setFromDestination, setToDestination, history, setHistory, forwardedRef}) {
 
     const [fetchDirClicked, setFetchDirClicked] = useState(false);
 
@@ -324,7 +322,7 @@ function Map() {
                 }
             </GoogleMap>
         </div>
-        <ToFromFields mapRef={mapRef} setFromDestination={setFromDestination} setToDestination={setToDestination} setFetchDirClicked={setFetchDirClicked}/>
+        <ToFromFields mapRef={mapRef} setFromDestination={setFromDestination} setToDestination={setToDestination} setFetchDirClicked={setFetchDirClicked} fromDestination={fromDestination} toDestination={toDestination} history={history} setHistory={setHistory} forwardedRef={forwardedRef}/>
         </>
     );
 }
