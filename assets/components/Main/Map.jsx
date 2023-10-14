@@ -8,9 +8,8 @@ import {
 import polyline from 'google-polyline';
 import { FaArrowRight } from 'react-icons/fa';
 
-import {getGeocode, getLatLng} from 'use-places-autocomplete';
-
 import Place from './Places.jsx';
+import Distance from './Distance.jsx';
 
 import MarkerImg from '../../images/marker.png';
 import CarMarker from '../../images/carMarker.svg';
@@ -51,6 +50,10 @@ function Map() {
     const [cities, setCities] = useState([]);
     const [drivingResults, setDrivingResults] = useState([]);
 
+    const [time, setTime] = useState(0);
+    const [distance, setDistance] = useState(0);
+    const [carbon, setCarbon] = useState(0);
+
     function haversine(lat1, lon1, lat2, lon2) {
         const R = 6371; 
         const lat1Rad = (Math.PI * lat1) / 180;
@@ -72,6 +75,9 @@ function Map() {
         if (!fromDestination || !toDestination) return;
         setDirections('');
         setAdditionalRoutes('');
+        setTime(0);
+        setDistance(0);
+        setCarbon(0);
         const service = new google.maps.DirectionsService;
         service.route(
             {
@@ -268,19 +274,42 @@ function Map() {
 
                 {additionalRoutes &&
                 additionalRoutes.routes.map((route, index) => {
-                    console.log(route);
-                    return (
-                        <Polyline 
-                            key={index}
-                            path={route.overview_path}
-                            options={{
-                                strokeColor: `${index === 0 ? 'yellow' : 'gray'}`,
-                                zIndex: 50,
-                                strokeWeight: 4,
-                                clickable: false
-                        }}/>
-                    );
+                    if (index < 3) {
+                        return (
+                            <Polyline 
+                                key={index}
+                                path={route.overview_path}
+                                options={{
+                                    strokeColor: index === 0 ? 'yellow' : 'gray',
+                                    zIndex: index === 0 ? 50 : 25,
+                                    strokeWeight: 4,
+                                    clickable: false
+                            }}/>
+                        );
+                    }
                 })
+                }
+                {(directions || additionalRoutes) &&
+                <div className='distanceTime'>
+                    {directions && 
+                    <Distance leg={directions.routes[0].legs[0]} type={'public'} setTime={setTime} setDistance={setDistance} setCarbon={setCarbon} prevTime={time} prevDistance={distance} prevCarbon={carbon}/> 
+                    }
+                    {additionalRoutes &&
+                    additionalRoutes.routes.map((route, index) => {
+                        if (index < 3)  {
+                            return (
+                                <Distance leg={route.legs[0]} type={index === 0 ? 'ridesharing' : 'alternative'} setTime={setTime} setDistance={setDistance} setCarbon={setCarbon}prevTime={time} prevDistance={distance} prevCarbon={carbon}/> 
+                            );
+                        }
+                    })
+                    }
+                    {(time && distance && carbon) &&
+                    <>
+                        <hr></hr>
+                        <p><b>Total:</b>  <b>Distance:</b>  {distance / 1000} km <b>Time:</b>  {parseInt(time / 3600)} hours {parseInt(((time - (parseInt(time/3600)* 3600))) / 60 + 0.5)} min  <b>Carbon emitted:</b> {carbon.toFixed(2)} </p> 
+                    </>
+                    }
+                </div>
                 }
 
                 {toDestination && 

@@ -4,12 +4,9 @@ import { useLoadScript } from "@react-google-maps/api";
 
 
 function Main() {
-    const [key, setKey] = useState('');
-
     const fetchData = async () => {
         const data = await fetch("http://127.0.0.1:8000/getApiKey");
         let resp = await data.json();
-        
     }
 
     const { isLoaded } = useLoadScript ({
@@ -21,9 +18,13 @@ function Main() {
         fetchData();
     }, [])
 
+    useEffect(() => {
+        console.log(isLoaded);
+    }, [isLoaded])
     return (
         <>
-            {!isLoaded ? <p></p> :
+            {!isLoaded ? <></>
+             :
             <div className='main'>
                 <Map />
             </div>
