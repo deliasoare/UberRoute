@@ -5,16 +5,19 @@
 @import '_main.scss';
 @import '_footer.scss';
 @import '_map.scss';
-@import '_sidebar.scss';
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Stylish', cursive;
 }
-
+html, body {
+    height: 100%;
+}
 .root {
-    min-height: 100vh;
     display: grid;
     grid-template-columns:75px 1fr 75px;
+}
+.root, .sidebar {
+    min-height: 100%;
 }

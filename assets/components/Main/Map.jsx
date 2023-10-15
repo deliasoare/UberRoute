@@ -10,6 +10,7 @@ import { FaArrowRight } from 'react-icons/fa';
 
 import Place from './Places.jsx';
 import Distance from './Distance.jsx';
+import Legend from './Legend.jsx';
 
 import MarkerImg from '../../images/marker.png';
 import CarMarker from '../../images/carMarker.svg';
@@ -323,6 +324,7 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
             </GoogleMap>
         </div>
         <ToFromFields mapRef={mapRef} setFromDestination={setFromDestination} setToDestination={setToDestination} setFetchDirClicked={setFetchDirClicked} fromDestination={fromDestination} toDestination={toDestination} history={history} setHistory={setHistory} forwardedRef={forwardedRef}/>
+        <Legend />
         </>
     );
 }

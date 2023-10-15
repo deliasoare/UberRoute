@@ -3,7 +3,94 @@
     color: $secondary;
     font-size: 1.4rem;
     padding: 0.75em;
+    display: flex;
+    justify-content:space-between;
     .title {
         cursor: pointer;
+    }
+    .openSidebar {
+        padding: 0.5em;
+        border-radius: 7px;
+        border: 2px solid $main;
+        background: $secondary;
+        transition: 200ms ease-in-out;
+        cursor: pointer;
+        &:hover {
+            background: $main;
+            border-color: $secondary;
+            color: $secondary;
+        }
+    }
+    .sidebar {
+        position: fixed;
+        background: $secondary;
+        visibility: hidden;
+        width: 25%;
+        min-width: 250px;
+        min-height: max(100%, 100vh);
+        top: 0;
+        bottom:0;
+        right: -250px;
+        z-index: 1;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        color: $main;
+        display: grid;
+        grid-template-rows: 10% 80%;
+        border-left: 20px solid $main;
+        .closeSidebar {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: $secondary;
+            color: $main;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor:pointer;
+        }
+        .upperPart {
+            background: $main;
+        }
+        .lowerPart p {
+            cursor: pointer;
+        }
+    }
+}
+
+.fade-in {
+    animation: {
+        name: fadeIn;
+        duration: 150ms;
+        timing-function: ease-in-out;
+        fill-mode: forwards;
+    }
+}
+.fade-out {
+    animation: {
+        name: fadeOut;
+        duration: 150ms;
+        timing-function: ease-in-out;
+        fill-mode: forwards;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        right:-250px;
+    }
+    100% {
+        right: 0px;
+    }
+}
+@keyframes fadeOut {
+    0% {
+        right: 0px;
+    }
+    100% {
+        right: -250px;
     }
 }

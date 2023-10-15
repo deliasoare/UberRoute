@@ -1,5 +1,4 @@
 
-
 .main {
     display: flex;
     flex-direction: column;
@@ -87,5 +86,31 @@
 @media (min-width: 1000px) {
     .mapImg {
         width: 50% !important;
+    }
+}
+
+.legend {
+    display: flex;
+    flex-direction:column;
+    gap: 10px;
+    font-size: 1.1rem;
+    padding-right: 5em;
+    align-self: flex-end;
+    .legendCat {
+        display: flex;
+        gap: 10px;
+    }
+    .color {
+        width: 20px;
+        height: 20px;
+    }
+    .publicColor {
+        background: black;
+    }
+    .ridesharingColor {
+        background: yellow;
+    }
+    .alternativeColor {
+        background: gray;
     }
 }
