@@ -11,6 +11,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import Place from './Places.jsx';
 import Distance from './Distance.jsx';
 import Legend from './Legend.jsx';
+import ErrorMsg from './ErrorMsg.jsx';
 
 import MarkerImg from '../../images/marker.png';
 import CarMarker from '../../images/carMarker.svg';
@@ -48,10 +49,22 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
 
     const [cities, setCities] = useState([]);
     const [drivingResults, setDrivingResults] = useState([]);
-
+    const [errorMsg, setErrorMsg] = useState(false);
     const [time, setTime] = useState(0);
     const [distance, setDistance] = useState(0);
     const [carbon, setCarbon] = useState(0);
+
+    useEffect(() => {
+        if (errorMsg === true) {
+            setTimeout(() => {
+                setErrorMsg(false);
+            }, 5000)
+        }
+    }, [errorMsg])
+
+    const closeErrorMsg = () => {
+        setErrorMsg(false);
+    }
 
     function haversine(lat1, lon1, lat2, lon2) {
         const R = 6371; 
@@ -160,7 +173,7 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
                             });
                         }
                         else {
-                            console.log("There's no such route.")
+                            setErrorMsg(true);
                         }
                     }
                 )        
@@ -325,6 +338,9 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
         </div>
         <ToFromFields mapRef={mapRef} setFromDestination={setFromDestination} setToDestination={setToDestination} setFetchDirClicked={setFetchDirClicked} fromDestination={fromDestination} toDestination={toDestination} history={history} setHistory={setHistory} forwardedRef={forwardedRef}/>
         <Legend />
+        {errorMsg &&
+        <ErrorMsg closeErrorMsg={closeErrorMsg}/>
+        }
         </>
     );
 }

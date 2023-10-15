@@ -28,12 +28,17 @@ const Header = function Header({setFromDestination, setToDestination, history, b
         setSidebarIsOpen(false);
     }
 
+    const setComputation = (route) => {
+        setFromDestination(route.fromDestination);
+        setToDestination(route.toDestination);
+        
+    }
     console.log(buttonRef.current);
     return (
         <div className='header'>
             <p className='title'>Uber Route</p>
             <button onClick={openSidebar} className='openSidebar'>History</button>
-            <Sidebar forwardedRef={sidebarRef} closeSidebar={closeSidebar} history={history} setFromDestination={setFromDestination} setToDestination={setToDestination}/>
+            <Sidebar forwardedRef={sidebarRef} closeSidebar={closeSidebar} history={history} setComputation={setComputation}/>
         </div>
     );
 }
