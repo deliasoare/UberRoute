@@ -1,5 +1,7 @@
 #  UberRoute: Intelligent Transit Route Suggestion
 
+## Before running write in the terminal: pip install django djangorestframework python-dotenv geohash pygeohash 
+## And: npm install
 ## Introduction
 
 UberRoute is an avant-garde solution developed for the Uber Hackathon. Designed to revolutionize urban transit planning, this application seamlessly integrates the precision of geohashes with modern web technologies to offer users unparalleled accuracy and efficiency in transit recommendations.
