@@ -12,7 +12,7 @@ function Legend() {
             </div>
             <div className='legendCat alternativeLegend'>
                 <div className='color alternativeColor'></div>
-                <p> - Alternative route</p>
+                <p> - Alternative route(s)</p>
             </div>
         </div>
     );

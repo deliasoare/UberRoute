@@ -64,6 +64,7 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
     const [time, setTime] = useState(0);
     const [distance, setDistance] = useState(0);
     const [carbon, setCarbon] = useState(0);
+    const [timeMessage, setTimeMessage] = useState('');
 
     useEffect(() => {
         if (errorMsg === true) {
@@ -76,6 +77,7 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
     const closeErrorMsg = () => {
         setErrorMsg(false);
     }
+
 
     function haversine(lat1, lon1, lat2, lon2) {
         const R = 6371; 
@@ -285,7 +287,7 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
                 options={options}
                 onLoad={onLoad}>
 
-                {directions && 
+                {directions ? 
                 <DirectionsRenderer directions={directions} options={{
                     polylineOptions: {
                         strokeColor: '#000000',
@@ -293,11 +295,12 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
                     },
                     suppressMarkers: true
                 }}/>
+                : ''
                 }
 
-                {additionalRoutes &&
+                {additionalRoutes ? 
                 additionalRoutes.routes.map((route, index) => {
-                    if (index < 3) {
+                    if (index < 2) {
                         return (
                             <Polyline 
                                 key={index}
@@ -311,25 +314,28 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
                         );
                     }
                 })
+                : ''
                 }
                 {(directions || additionalRoutes) &&
                 <div className='distanceTime'>
-                    {directions && 
-                    <Distance leg={directions.routes[0].legs[0]} type={'public'} setTime={setTime} setDistance={setDistance} setCarbon={setCarbon} prevTime={time} prevDistance={distance} prevCarbon={carbon}/> 
+                    {directions ?
+                    <Distance leg={directions.routes[0].legs[0]} type={'public'} setTime={setTime} setDistance={setDistance} setCarbon={setCarbon} prevTime={time} prevDistance={distance} prevCarbon={carbon} setTimeMessage={setTimeMessage}/> 
+                    : ''
                     }
-                    {additionalRoutes &&
+                    {additionalRoutes ?
                     additionalRoutes.routes.map((route, index) => {
-                        if (index < 3)  {
+                        if (index < 2)  {
                             return (
-                                <Distance leg={route.legs[0]} type={index === 0 ? 'ridesharing' : 'alternative'} setTime={setTime} setDistance={setDistance} setCarbon={setCarbon}prevTime={time} prevDistance={distance} prevCarbon={carbon}/> 
+                                <Distance leg={route.legs[0]} type={index === 0 ? 'ridesharing' : 'alternative'} setTime={setTime} setDistance={setDistance} setCarbon={setCarbon}prevTime={time} prevDistance={distance} prevCarbon={carbon} setTimeMessage={setTimeMessage}/> 
                             );
                         }
                     })
+                    : ''
                     }
                     {(time && distance && carbon) &&
                     <>
                         <hr></hr>
-                        <p><b>Total:</b>  <b>Distance:</b>  {distance / 1000} km <b>Time:</b>  {parseInt(time / 3600)} hours {parseInt(((time - (parseInt(time/3600)* 3600))) / 60 + 0.5)} min  <b>Carbon emitted:</b> {carbon.toFixed(2)} </p> 
+                        <p><b>Total:</b>  <b>Distance:</b>  {(distance / 1000).toFixed(2)} km <b>Time:</b>  {timeMessage} <b>Carbon emitted:</b> {carbon.toFixed(2)} CO2</p> 
                     </>
                     }
                 </div>
