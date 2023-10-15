@@ -29,11 +29,10 @@ const Header = function Header({setFromDestination, setToDestination, history, b
     }
 
     const setComputation = (route) => {
-        setFromDestination(route.fromDestination);
-        setToDestination(route.toDestination);
-        
+        setFromDestination(route[0]);
+        setToDestination(route[1]);
+        buttonRef.current.click();
     }
-    console.log(buttonRef.current);
     return (
         <div className='header'>
             <p className='title'>Uber Route</p>

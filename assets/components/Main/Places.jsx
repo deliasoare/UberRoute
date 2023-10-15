@@ -7,7 +7,7 @@ import {
     ComboboxPopover
 } from "@reach/combobox";
 
-function Place({ setPlace , field, setDestination }) {
+function Place({ setPlace , field, setDestination, setDestinationName }) {
     const {ready, value, setValue, suggestions: { status, data }, clearSuggestions} = usePlacesAutocomplete();
     
     const onSelect = async (val) => {
@@ -17,10 +17,12 @@ function Place({ setPlace , field, setDestination }) {
         const results = await getGeocode({ address: val });
         const { lat, lng } = await getLatLng(results[0]);
 
-        if (field === 'from')
+        if (field === 'from') {
             setPlace({ lat, lng });
+        }
 
          setDestination({lat, lng}, );
+         setDestinationName(val);
     }
 
     return (

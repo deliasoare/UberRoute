@@ -1,6 +1,5 @@
 
 function Sidebar({forwardedRef, closeSidebar, history, setComputation}) {
-
     return (
         <div ref={forwardedRef} className="sidebar">
             <span className="closeSidebar" onClick={closeSidebar}>X</span>
@@ -8,7 +7,7 @@ function Sidebar({forwardedRef, closeSidebar, history, setComputation}) {
             <div className="lowerPart">
                 {history && history.map(route => {
                     return (
-                        <p onClick={() => {setComputation(route)}} className='routeHistory'>{route.fromDestination} - {route.toDestination}</p>
+                        <div onClick={() => {setComputation(route)}} className='routeHistory'>{route[2]} - {route[3]}</div>
                     );
                 })}
             </div>

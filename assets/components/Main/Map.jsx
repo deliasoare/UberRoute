@@ -16,8 +16,19 @@ import ErrorMsg from './ErrorMsg.jsx';
 import MarkerImg from '../../images/marker.png';
 import CarMarker from '../../images/carMarker.svg';
 
-function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDirClicked, fromDestination, toDestination, history, setHistory, forwardedRef}) {
-    const fetchDir = () => {setFetchDirClicked(true); setHistory([...history], {fromDestination, toDestination}); }
+function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDirClicked, fromDestination, toDestination, history, setHistory, forwardedRef, setFromDestinationName, setToDestinationName, fromDestinationName, toDestinationName}) {
+    const fetchDir = () => {
+        setFetchDirClicked(true); 
+        let inHistory = false;
+        if (history) {
+            history.map(route => {
+                if (route[2] === fromDestinationName && route[3] === toDestinationName)
+                    inHistory = true;
+            })
+        }
+        if (!inHistory)
+            setHistory([...history, [fromDestination, toDestination, fromDestinationName, toDestinationName]])
+    }
     return (
         <div className='fieldsNButton'>
             <div className='fields'>
@@ -25,14 +36,14 @@ function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDi
                     <p className='fromKeyword'>From:</p>
                     <Place setPlace={(position)=> {
                         mapRef.current?.panTo(position);
-                    }} field={'from'} setDestination={setFromDestination}/>
+                    }} field={'from'} setDestination={setFromDestination} setDestinationName={setFromDestinationName}/>
                 </div>
                 <div className='arrow'> <FaArrowRight size={30}/> </div>
                 <div className='toDropdown to'>
                     <p className='toKeyword'>To:</p>
                     <Place setPlace={(position) => {
                         mapRef.current?.panTo(position);
-                    }} field={'to'} setDestination={setToDestination}/>
+                    }} field={'to'} setDestination={setToDestination} setDestinationName = {setToDestinationName}/>
                 </div>
             </div>
             <button onClick={fetchDir} ref={forwardedRef} className='computeDestinations'>Go</button>
@@ -40,7 +51,7 @@ function ToFromFields({ mapRef, setFromDestination, setToDestination, setFetchDi
     )
 }
 
-function Map({fromDestination, toDestination, setFromDestination, setToDestination, history, setHistory, forwardedRef}) {
+function Map({fromDestination, toDestination, setFromDestination, setToDestination, history, setHistory, forwardedRef, setFromDestinationName, setToDestinationName, fromDestinationName, toDestinationName}) {
 
     const [fetchDirClicked, setFetchDirClicked] = useState(false);
 
@@ -336,7 +347,7 @@ function Map({fromDestination, toDestination, setFromDestination, setToDestinati
                 }
             </GoogleMap>
         </div>
-        <ToFromFields mapRef={mapRef} setFromDestination={setFromDestination} setToDestination={setToDestination} setFetchDirClicked={setFetchDirClicked} fromDestination={fromDestination} toDestination={toDestination} history={history} setHistory={setHistory} forwardedRef={forwardedRef}/>
+        <ToFromFields mapRef={mapRef} setFromDestination={setFromDestination} setToDestination={setToDestination} setFetchDirClicked={setFetchDirClicked} fromDestination={fromDestination} toDestination={toDestination} history={history} setHistory={setHistory} forwardedRef={forwardedRef} setFromDestinationName={setFromDestinationName} setToDestinationName={setToDestinationName} fromDestinationName={fromDestinationName} toDestinationName={toDestinationName}/>
         <Legend />
         {errorMsg &&
         <ErrorMsg closeErrorMsg={closeErrorMsg}/>

@@ -10,15 +10,14 @@ function App() {
     const [toDestination, setToDestination] = useState('');
     const [history, setHistory] = useState('');
 
+    const [fromDestinationName, setFromDestinationName] = useState();
+    const [toDestinationName, setToDestinationName] = useState();
     const computeRef = useRef(null);
 
-    useEffect(() => {
-        console.log(computeRef);
-    }, [computeRef])
     return (
         <>
             <Header setFromDestination={setFromDestination} setToDestination={setToDestination} history={history} buttonRef={computeRef} />
-            <Main fromDestination={fromDestination} toDestination={toDestination} setFromDestination={setFromDestination} setToDestination={setToDestination} history={history} setHistory={setHistory} forwardedRef={computeRef} />
+            <Main fromDestination={fromDestination} toDestination={toDestination} setFromDestination={setFromDestination} setToDestination={setToDestination} history={history} setHistory={setHistory} forwardedRef={computeRef} setFromDestinationName={setFromDestinationName} setToDestinationName={setToDestinationName} fromDestinationName={fromDestinationName} toDestinationName={toDestinationName}/>
             <Footer />
         </>
     )
